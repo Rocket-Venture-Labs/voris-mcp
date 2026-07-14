@@ -12,7 +12,7 @@
  * stdio<->HTTP, forwards initialize -> tools/list -> resources/list verbatim, keeps
  * stdout to JSON-RPC frames only, and fails closed without a key.
  *
- * NOT the real catalog: @voris/mcp is a pure proxy (ADR-082 §c); the stub stands in
+ * NOT the real catalog: @voris-ai/mcp is a pure proxy (ADR-082 §c); the stub stands in
  * for "some upstream". Real-catalog fidelity is the hosted server's job.
  */
 import { describe, it, expect, beforeAll, afterAll } from "vitest"
@@ -94,7 +94,7 @@ function rawCliSession(
   })
 }
 
-describe("@voris/mcp publish smoke (packed bin, standalone)", () => {
+describe("@voris-ai/mcp publish smoke (packed bin, standalone)", () => {
   let binJs: string
   let httpServer: http.Server
   let endpoint: string
@@ -118,7 +118,7 @@ describe("@voris/mcp publish smoke (packed bin, standalone)", () => {
       cwd: scratch,
       stdio: "pipe",
     })
-    binJs = join(scratch, "node_modules/@voris/mcp/dist/bin.js")
+    binJs = join(scratch, "node_modules/@voris-ai/mcp/dist/bin.js")
     if (!existsSync(binJs)) throw new Error(`installed bin missing at ${binJs}`)
 
     // Local stateless Streamable-HTTP stub the packed bridge proxies to (fresh Server +

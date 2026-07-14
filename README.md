@@ -1,4 +1,4 @@
-# @voris/mcp
+# @voris-ai/mcp
 
 `voris-mcp` — a thin **stdio ⇄ HTTPS** proxy that connects a local MCP client (Claude Desktop, an editor agent, a CLI) to the hosted **Voris MCP server** at `https://mcp.voris.ai/mcp`.
 

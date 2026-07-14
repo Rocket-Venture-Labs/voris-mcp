@@ -1,5 +1,5 @@
 /**
- * Reproducible-build check for @voris/mcp (spec A042 T61 / AC13, publish-time CI gate).
+ * Reproducible-build check for @voris-ai/mcp (spec A042 T61 / AC13, publish-time CI gate).
  *
  * WHERE THIS RUNS: the dedicated PUBLIC bridge repo ONLY (ADR-093). Staged here at
  * packages/mcp/publish/reproducible-build.test.ts and copied to src/__tests__/reproducible-build.test.ts
@@ -69,7 +69,7 @@ function cleanBuild(): Record<string, string> {
   return hashTree(DIST)
 }
 
-describe("@voris/mcp reproducible build (spec A042 T61)", () => {
+describe("@voris-ai/mcp reproducible build (spec A042 T61)", () => {
   let buildA: Record<string, string>
   let buildB: Record<string, string>
   let packedDist: Record<string, string>

@@ -1,4 +1,4 @@
-# @voris/mcp release — publish the CLI bridge to npm WITH PROVENANCE.
+# @voris-ai/mcp release — publish the CLI bridge to npm WITH PROVENANCE.
 #
 # ┌─ THIS FILE LIVES IN THE DEDICATED PUBLIC REPO (ADR-093), NOT the monorepo. ─┐
 # It is STAGED here at packages/mcp/publish/release.yml and copied to the public
@@ -20,7 +20,7 @@
 # workflow_dispatch to validate the (still-unproven) provenance-from-a-public-repo
 # path before trusting a tag push.
 
-name: Release @voris/mcp
+name: Release @voris-ai/mcp
 
 on:
   # A version tag pushed in the public repo (e.g. v0.0.1). The sync tags releases here.
@@ -89,4 +89,4 @@ jobs:
         if: failure()
         env:
           REF: ${{ github.ref }}
-        run: echo "::error::@voris/mcp publish FAILED for ${REF} — see the failing step. If provenance failed, confirm this repo is PUBLIC and trusted publishing is configured on npmjs.org (ADR-093)."
+        run: echo "::error::@voris-ai/mcp publish FAILED for ${REF} — see the failing step. If provenance failed, confirm this repo is PUBLIC and trusted publishing is configured on npmjs.org (ADR-093)."

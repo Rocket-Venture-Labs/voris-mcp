@@ -1,4 +1,4 @@
-// The @voris/mcp bridge core (spec A041 T38, ADR-082 §c). A message-level stdio⇄HTTPS proxy:
+// The @voris-ai/mcp bridge core (spec A041 T38, ADR-082 §c). A message-level stdio⇄HTTPS proxy:
 // forward JSON-RPC VERBATIM between the local MCP client (stdio) and the hosted Voris MCP server
 // (Streamable HTTP). NO tool logic, NO database access — all enforcement lives in the hosted
 // server. Kept free of process/exit side effects so it is fully unit-testable (bin.ts is the

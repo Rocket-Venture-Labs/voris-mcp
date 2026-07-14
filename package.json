@@ -1,5 +1,5 @@
 {
-  "name": "@voris/mcp",
+  "name": "@voris-ai/mcp",
   "version": "0.0.1",
   "description": "Voris MCP CLI — a thin stdio-to-HTTPS proxy that connects a local MCP client to the hosted Voris MCP server.",
   "license": "MIT",
