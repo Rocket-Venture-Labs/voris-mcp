@@ -79,10 +79,16 @@ jobs:
       - name: Offline init→lists smoke (packed bin vs local stub)
         run: npm run test:smoke
 
-      # Trusted publishing (OIDC): no NODE_AUTH_TOKEN. --provenance uses id-token:write;
-      # --access public because @voris/* is a scoped package. publishConfig.access is
-      # already "public" in package.json — the flag is belt-and-suspenders.
+      # BOOTSTRAP (one-time first publish): npm requires the package to EXIST before a
+      # trusted publisher can be configured, so this first publish authenticates with the
+      # NPM_TOKEN secret (a granular token) while STILL attesting provenance via
+      # id-token:write. AFTER this publish succeeds + you configure trusted publishing on
+      # npmjs.org, remove the `env:` block below so all later releases publish tokenless.
+      # --access public because @voris-ai/* is a scoped package (publishConfig.access is
+      # already "public"; the flag is belt-and-suspenders).
       - name: Publish to npm with provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --provenance --access public
 
       - name: Failure summary
