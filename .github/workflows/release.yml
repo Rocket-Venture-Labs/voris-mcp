@@ -1,0 +1,92 @@
+# @voris/mcp release — publish the CLI bridge to npm WITH PROVENANCE.
+#
+# ┌─ THIS FILE LIVES IN THE DEDICATED PUBLIC REPO (ADR-093), NOT the monorepo. ─┐
+# It is STAGED here at packages/mcp/publish/release.yml and copied to the public
+# repo's .github/workflows/release.yml by the one-way sync (scripts/sync-public.sh,
+# T60 follow-on). It is INERT in the monorepo: GitHub only reads workflows from the
+# repo-root .github/workflows/, never a nested path.
+#
+# WHY a separate public repo: npm will not attest provenance from a PRIVATE source
+# repo (removed 2023-07-26, still in force), and Rocket-Venture-Labs/rocketanalytics
+# is private. The bridge's canonical source is that private monorepo's packages/mcp;
+# it is synced here one-way. Edit the bridge UPSTREAM, never in the public repo.
+#
+# AUTH: npm TRUSTED PUBLISHING (OIDC, tokenless — ADR-093). No NPM_TOKEN secret.
+# Configure the trusted publisher once on npmjs.org: the @voris scope trusts THIS
+# repo's release.yml. Provenance + the OIDC auth exchange both require id-token:write.
+#
+# INERT until: (1) the public repo exists with the synced bridge tree, and
+# (2) trusted publishing is configured on npmjs.org. FIRST PUBLISH: run via
+# workflow_dispatch to validate the (still-unproven) provenance-from-a-public-repo
+# path before trusting a tag push.
+
+name: Release @voris/mcp
+
+on:
+  # A version tag pushed in the public repo (e.g. v0.0.1). The sync tags releases here.
+  push:
+    tags:
+      - "v*"
+  # Manual trigger — used for the first, unproven publish and for re-runs.
+  workflow_dispatch: {}
+
+# Least privilege. id-token:write is REQUIRED for npm provenance (sigstore/OIDC) AND
+# for the trusted-publishing auth exchange; contents:read to check out. No `packages`
+# or deploy scope — this touches no Docker image and no VPS deploy (Docker-gate exempt,
+# ADR-093 / ADR-090 §5).
+permissions:
+  contents: read
+  id-token: write
+
+# One publish at a time; never cancel an in-flight publish.
+concurrency:
+  group: release-voris-mcp
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build, verify, publish (provenance)
+    runs-on: ubuntu-latest
+    steps:
+      # S4: external actions pinned to 40-char commit SHAs (supply chain); same pins
+      # as the monorepo's setup-node-pnpm composite — bump both together.
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          registry-url: "https://registry.npmjs.org"
+
+      # Trusted publishing needs npm >= 11.5.1; Node 22 ships npm 10. Upgrade before publish.
+      - name: Upgrade npm (trusted publishing needs >= 11.5.1)
+        run: npm install -g npm@latest
+
+      - name: Install (clean, from lockfile)
+        run: npm ci
+
+      - name: Build (tsc)
+        run: npm run build
+
+      # T61 — CI-gated determinism: the published tarball's built output must byte-match
+      # a fresh tsc build from source. Script provided by the sync bundle (T60 follow-on).
+      - name: Reproducible-build check
+        run: npm run check:reproducible
+
+      # Layout-agnostic port of the monorepo T59 smoke: pack -> install -> drive the
+      # installed dist/bin.js as an MCP client against a local stateless stub, asserting
+      # initialize -> tools/list -> resources/list. NO upstream / no network / no Docker.
+      # Script provided by the sync bundle (T60 follow-on).
+      - name: Offline init→lists smoke (packed bin vs local stub)
+        run: npm run test:smoke
+
+      # Trusted publishing (OIDC): no NODE_AUTH_TOKEN. --provenance uses id-token:write;
+      # --access public because @voris/* is a scoped package. publishConfig.access is
+      # already "public" in package.json — the flag is belt-and-suspenders.
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access public
+
+      - name: Failure summary
+        if: failure()
+        env:
+          REF: ${{ github.ref }}
+        run: echo "::error::@voris/mcp publish FAILED for ${REF} — see the failing step. If provenance failed, confirm this repo is PUBLIC and trusted publishing is configured on npmjs.org (ADR-093)."

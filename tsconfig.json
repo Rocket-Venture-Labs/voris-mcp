@@ -1,0 +1,23 @@
+{
+  "//": "STAGED public-repo tsconfig (ADR-093). Synced to the public bridge repo as tsconfig.json. This is a FLATTENED, self-contained copy of the monorepo's tsconfig.base.json + packages/mcp/tsconfig.json (rootDir/outDir) — the public repo has no ../../tsconfig.base.json to extend. Keep in sync with tsconfig.base.json (the sync script asserts this).",
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}

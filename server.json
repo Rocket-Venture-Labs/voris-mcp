@@ -1,0 +1,31 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.voris.mcp/server",
+  "title": "Voris",
+  "description": "Connect an AI agent to your Voris privacy-native web analytics: query metrics, conversions, funnels, AI visibility, and citations, and scaffold SDK tracking. A thin stdio-to-HTTPS bridge (npx @voris/mcp) to the hosted Voris MCP server, which enforces per-key scopes and tenant isolation.",
+  "version": "0.0.1",
+  "websiteUrl": "https://docs.voris.ai",
+  "repository": {
+    "url": "https://github.com/Rocket-Venture-Labs/voris-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@voris/mcp",
+      "version": "0.0.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "VORIS_API_KEY",
+          "description": "Your Voris MCP API key. Generate one in the Voris dashboard under Settings > AI Connections.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

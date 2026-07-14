@@ -1,0 +1,56 @@
+{
+  "name": "@voris/mcp",
+  "version": "0.0.1",
+  "description": "Voris MCP CLI — a thin stdio-to-HTTPS proxy that connects a local MCP client to the hosted Voris MCP server.",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "author": "Rocket Venture Labs",
+  "homepage": "https://docs.voris.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rocket-Venture-Labs/voris-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Rocket-Venture-Labs/voris-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "voris",
+    "analytics",
+    "web-analytics",
+    "ai-agents",
+    "cli"
+  ],
+  "bin": {
+    "voris-mcp": "./dist/bin.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:smoke": "vitest run src/__tests__/smoke.test.ts",
+    "check:reproducible": "vitest run src/__tests__/reproducible-build.test.ts",
+    "prepublishOnly": "npm run build && npm run test:smoke"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.8.3",
+    "vitest": "^4.1.0"
+  }
+}
