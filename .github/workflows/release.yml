@@ -80,10 +80,8 @@ jobs:
         run: npm run test:smoke
 
       # Trusted publishing (OIDC): no NODE_AUTH_TOKEN. --provenance uses id-token:write;
-      # --access public because @voris-ai/* is a scoped package. publishConfig.access is
-      # already "public" in package.json — the flag is belt-and-suspenders. (The bootstrap
-      # 0.0.1 was published locally with an OTP; every release from here is tokenless via
-      # the trusted publisher configured on npmjs.org.)
+      # --access public because @voris/* is a scoped package. publishConfig.access is
+      # already "public" in package.json — the flag is belt-and-suspenders.
       - name: Publish to npm with provenance
         run: npm publish --provenance --access public
 

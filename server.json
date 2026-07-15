@@ -3,7 +3,7 @@
   "name": "ai.voris.mcp/server",
   "title": "Voris",
   "description": "Connect an AI agent to your Voris privacy-native web analytics: query metrics, conversions, funnels, AI visibility, and citations, and scaffold SDK tracking. A thin stdio-to-HTTPS bridge (npx @voris-ai/mcp) to the hosted Voris MCP server, which enforces per-key scopes and tenant isolation.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "websiteUrl": "https://docs.voris.ai",
   "repository": {
     "url": "https://github.com/Rocket-Venture-Labs/voris-mcp",
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@voris-ai/mcp",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "transport": {
         "type": "stdio"
       },
